@@ -1,0 +1,12 @@
+[package]
+name = "dbcomp"
+version = "0.1.0"
+authors = ["Mike Funduc <mike@funduc.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+url = "2.1.1"
+async-std = { version = "1.5.0", features = [ "attributes" ] }
+sqlx = { version = "0.3.5", default-features = false, features = [ "sqlite", "macros", "runtime-async-std" ] }
