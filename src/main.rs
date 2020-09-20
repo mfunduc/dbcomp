@@ -2,6 +2,7 @@ use sqlx::{ Error };
 use std::env;
 mod info;
 use self::info::dbinfo::DbInfo;
+use futures::join;
 
 #[async_std::main]
 async fn main() -> Result<(), Error> {
@@ -13,10 +14,12 @@ async fn main() -> Result<(), Error> {
     }
 
     let mut db1: DbInfo = Default::default();
-    db1.load(&args[1]).await?;
-
     let mut db2: DbInfo = Default::default();
-    db2.load(&args[2]).await?;
+    let (err1, err2) = join!(db1.load(&args[1]), db2.load(&args[2]));
+    if !err1.is_ok() || !err2.is_ok() {
+        println!("Error opening databases!");
+        return Err(Error::Io(std::io::Error::from(std::io::ErrorKind::NotFound)));
+    }
 
     if db1.compare(&db2).await? {
         println!("All tables match!");

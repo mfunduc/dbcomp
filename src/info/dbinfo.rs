@@ -66,7 +66,7 @@ impl DbInfo {
         Ok((matches, row_num))
     }
 
-    pub async fn compare(&mut self, db2: &DbInfo) -> Result<bool, Error> {
+    pub async fn compare(&self, db2: &DbInfo) -> Result<bool, Error> {
         let mut matches = true;
 
         let mut matched: Vec<&TableInfo> = Vec::new();

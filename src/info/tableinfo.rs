@@ -10,7 +10,7 @@ pub struct TableInfo {
 
 impl TableInfo {
     async fn read_rows(&mut self, connection: &mut SqliteConnection) -> Result<(), Error> {
-        let sql = format!("SELECT COUNT(*) FROM \'{}\'", &self.name);
+        let sql = format!(r"SELECT COUNT(*) FROM '{}'", &self.name);
         let mut rows = sqlx::query(&sql).fetch(connection);
 
         if let Some(row) = rows.next().await? {
@@ -19,7 +19,7 @@ impl TableInfo {
         Ok(())
     }
     async fn read_columns(&mut self, connection: &mut SqliteConnection) -> Result<(), Error> {
-        let sql = format!("PRAGMA table_info(\'{}\')", &self.name);
+        let sql = format!(r"PRAGMA table_info('{}')", &self.name);
         let mut rows = sqlx::query(&sql).fetch(connection);
 
         while let Some(row) = rows.next().await? {
@@ -33,7 +33,7 @@ impl TableInfo {
         self.read_columns(connection).await?;               
         Ok(())
     }
-    pub fn compare_tables(& self, table_to_check: &TableInfo) -> bool {
+    pub fn compare_tables(&self, table_to_check: &TableInfo) -> bool {
         if self.num_rows != table_to_check.num_rows {
             return false;
         }
