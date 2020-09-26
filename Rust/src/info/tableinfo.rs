@@ -37,7 +37,14 @@ impl TableInfo {
         if self.num_rows != table_to_check.num_rows {
             return false;
         }
-        if self.columns.len() != table_to_check.columns.len() {
+        if self.columns.len() == table_to_check.columns.len() {
+            for (col_name, col_type) in &self.columns {
+                let col_type2 = table_to_check.columns.get(col_name);
+                if col_type2.is_none() || (col_type2 != Some(col_type)) {
+                    return false;
+                }
+            }
+        } else {
             return false;
         }
         true

@@ -1,5 +1,6 @@
 use sqlx::{ Error };
 use std::env;
+use std::time::Instant;
 mod info;
 use self::info::dbinfo::DbInfo;
 use futures::join;
@@ -13,6 +14,7 @@ async fn main() -> Result<(), Error> {
         return Err(Error::Io(std::io::Error::from(std::io::ErrorKind::NotFound)));
     }
 
+    let now = Instant::now();
     let mut db1: DbInfo = Default::default();
     let mut db2: DbInfo = Default::default();
     let (err1, err2) = join!(db1.load(&args[1]), db2.load(&args[2]));
@@ -24,6 +26,7 @@ async fn main() -> Result<(), Error> {
     if db1.compare(&db2).await? {
         println!("All tables match!");
     }
+    println!("{} seconds elapsed", now.elapsed().as_micros() as f64 / 1e6);
 
     Ok(())
 }
