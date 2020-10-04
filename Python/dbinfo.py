@@ -16,8 +16,8 @@ class DbInfo(object):
             for row in rows:
                 tableNames.append(row[0])
 
-        for tableName in tableNames:
-            self.tables[tableName] = TableInfo(self.conn, tableName)
+            for tableName in tableNames:
+                self.tables[tableName] = TableInfo(self.conn, tableName)
 
     def compareTables(self, tableName, numColumns, db):
         cursor = self.conn.cursor()
