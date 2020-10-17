@@ -1,0 +1,16 @@
+{
+  "name": "dbcomp",
+  "version": "1.0.0",
+  "description": "SQLite database compare",
+  "main": "dbcomp.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mike Funduc",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^14.11.2",
+    "sqlite": "^4.0.14",
+    "sqlite3": "^5.0.0"
+  }
+}
